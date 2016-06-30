@@ -51,12 +51,18 @@ fn main() {
             let av_codec_ctx_deref = &*av_stream_deref.codec;  
             av_codec_ctx_deref.codec_type == ffsys::AVMEDIA_TYPE_VIDEO
         }) {
-            println!("Found video stream at stream index {}", idx);
+            println!("Found video stream at stream index {}.", idx);
             stream_idx = idx;
         } else {
             println!("Could not a video stream.");
             process::exit(-1);
         }
+
+        // Get a pointer to the codec context for the video stream
+        let stream = &**streams.offset(stream_idx as isize);
+        let avcc = AVCC::new(stream.codec);
+
+        println!("Retrieved AVCodecContext for {}.", src_uri);
     }
 
     process::exit(0);
@@ -78,6 +84,27 @@ impl Drop for AVFC {
             unsafe {
                 println!("Dropping the AVFC.");
                 ffsys::avformat_close_input(&mut self.0);
+            }
+        }
+    }
+}
+
+struct AVCC(*mut ffsys::AVCodecContext);
+
+impl AVCC {
+
+    fn new(avcc: *mut ffsys::AVCodecContext) -> AVCC {
+        AVCC(avcc)
+    }
+}
+
+impl Drop for AVCC {
+
+    fn drop(&mut self) -> () {
+        if !self.0.is_null() {
+            unsafe {
+                println!("Dropping the AVCC.");
+                ffsys::avcodec_close(self.0);
             }
         }
     }
