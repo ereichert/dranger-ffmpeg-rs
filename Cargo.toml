@@ -1,0 +1,9 @@
+[package]
+name = "dranger"
+version = "0.1.0"
+authors = ["Eric D. Reichert <eric@reichertconsulting.com>"]
+
+[dependencies.ffmpeg-sys]
+git = "https://github.com/trafficland/rust-ffmpeg-sys.git"
+rev = "c944c6370478e887b0cd95ed3968d23bde55d929"
+features  = ["build", "build-pic", "build-zlib", "build-lzma", "build-bz2"]

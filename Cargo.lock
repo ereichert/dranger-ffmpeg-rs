@@ -1,0 +1,29 @@
+[root]
+name = "dranger"
+version = "0.1.0"
+dependencies = [
+ "ffmpeg-sys 3.0.0 (git+https://github.com/trafficland/rust-ffmpeg-sys.git?rev=c944c6370478e887b0cd95ed3968d23bde55d929)",
+]
+
+[[package]]
+name = "ffmpeg-sys"
+version = "3.0.0"
+source = "git+https://github.com/trafficland/rust-ffmpeg-sys.git?rev=c944c6370478e887b0cd95ed3968d23bde55d929#c944c6370478e887b0cd95ed3968d23bde55d929"
+dependencies = [
+ "libc 0.2.13 (registry+https://github.com/rust-lang/crates.io-index)",
+ "num_cpus 0.2.13 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "libc"
+version = "0.2.13"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "num_cpus"
+version = "0.2.13"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "libc 0.2.13 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
