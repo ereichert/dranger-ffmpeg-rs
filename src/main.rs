@@ -1,3 +1,6 @@
+#![feature(alloc_system)]
+extern crate alloc_system;
+
 extern crate ffmpeg_sys;
 
 use std::{ptr, process, env, ffi};
@@ -63,6 +66,16 @@ fn main() {
         let avcc = AVCC::new(stream.codec);
 
         println!("Retrieved AVCodecContext for {}.", src_uri);
+
+        // Find the decoder for the video stream
+        let codec_id = (*avcc.0).codec_id;
+        let codec = ffsys::avcodec_find_decoder(codec_id);
+        if codec.is_null() {
+            println!("Could not find a codec for codec id {:?}.", codec_id);
+            process::exit(-1);
+        }
+
+        println!("Found codec {:?}.", ffi::CStr::from_ptr((*codec).name));
     }
 
     process::exit(0);
