@@ -86,7 +86,6 @@ fn main() {
         
         println!("Opened codec context for {}.", src_uri);
 
-        let mut src_frame = AVF::new();
         let mut packet = AVP::new();
         let mut frame_finished = 0;
         let mut frame_num = 0;
@@ -94,6 +93,7 @@ fn main() {
             // Is this a packet from the video stream?
             if packet.stream_index() == stream_idx {
                 // Decode video frame
+                let mut src_frame = AVF::new();
                 ffsys::avcodec_decode_video2(avcc.avcc, src_frame.as_mut_ptr(), &mut frame_finished, packet.as_ptr());
                 // Did we get a video frame?
                 if frame_finished != 0 {
